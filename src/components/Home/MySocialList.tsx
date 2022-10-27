@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import styled from "@emotion/styled"
 
+import { COLOR, SHADOW } from "src/styles/PALLETS"
+
 function MySocialList() {
   const [showList, setShowList] = useState(false)
   return (
@@ -15,17 +17,20 @@ function MySocialList() {
 }
 
 const Container = styled.section<{ showList: boolean }>`
-  position: absolute;
-  margin: 0 -16px;
-  padding: 12px 24px;
+  position: fixed;
+  padding: 20px 24px;
+  max-width: 420px;
   width: 100%;
+  left: 50%;
   bottom: 0;
-  min-height: ${(props) => (props.showList ? "90vh" : "120px")};
+  min-height: ${(props) => (props.showList ? "90%" : "80px")};
   background-color: #fff;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: ${SHADOW.center};
+  transform: translateX(-50%);
   transition: all 0.3s;
+  z-index: 10;
 `
 
 const Header = styled.div`
@@ -39,11 +44,11 @@ const Header = styled.div`
   }
   span {
     padding: 8px;
-    background-color: #fff7bb;
-    color: #ffb029;
+    background-color: rgba(${COLOR.mainrgb}, 0.25);
+    color: ${COLOR.main};
     font-size: 0.95rem;
     font-weight: 600;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 `
 
