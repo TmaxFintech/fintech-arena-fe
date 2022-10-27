@@ -1,10 +1,37 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "@emotion/styled"
 
 import { SHADOW } from "src/styles/PALLETS"
+import { IHotDtos } from "src/types/HotDataType"
+import NewsModal from "./NewsModal"
 
-function Card({ children }: { children: JSX.Element }) {
-  return <Article>{children}</Article>
+function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
+  const [ArticleModal, setArticleModal] = useState(false)
+  return (
+    <>
+      <Article>
+        <div onClick={() => setArticleModal(true)}>
+          {data.img && <img src={data.img} alt={data.title} />}
+          <article>
+            <p>{data.title}</p>
+            <span>{type === "news" ? data.media : data.board}</span>
+          </article>
+        </div>
+      </Article>
+      {ArticleModal && (
+        <NewsModal
+          setArticleModal={setArticleModal}
+          id={data.id}
+          title={data.title}
+          media={data.media}
+          img={data.img}
+          content={data.content}
+          assetCode={data.assetCode}
+          assetName={data.assetName}
+        />
+      )}
+    </>
+  )
 }
 
 const Article = styled.article`

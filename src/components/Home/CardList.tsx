@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import Link from "next/link"
 import styled from "@emotion/styled"
 
 import { COLOR } from "src/styles/PALLETS"
@@ -48,17 +47,7 @@ function CardList({
         allPage={data.length}
       >
         {data?.map((value, idx) => (
-          <Card key={idx}>
-            <Link href={value.url}>
-              <div>
-                {value.image && <img src={value.image} alt={value.title} />}
-                <article>
-                  <p>{value.title}</p>
-                  <span>{type === "news" ? value.press : value.board}</span>
-                </article>
-              </div>
-            </Link>
-          </Card>
+          <Card key={idx} type={type} data={value} />
         ))}
       </Cards>
       <Sliders>
