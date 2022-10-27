@@ -44,7 +44,7 @@ function CardList({
         onTouchStart={touchStart}
         onTouchEnd={touchEnd}
         nowPage={nowSlidePage}
-        allPage={data.length}
+        allPage={data?.length}
       >
         {data?.map((value, idx) => (
           <Card key={idx} type={type} data={value} />

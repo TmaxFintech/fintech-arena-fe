@@ -11,23 +11,23 @@ function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
     <>
       <Article>
         <div onClick={() => setArticleModal(true)}>
-          {data.img && <img src={data.img} alt={data.title} />}
+          {data?.img && <img src={data?.img} alt={data?.title} />}
           <article>
-            <p>{data.title}</p>
-            <span>{type === "news" ? data.media : data.board}</span>
+            <p>{data?.title}</p>
+            <span>{type === "news" ? data?.media : data?.board}</span>
           </article>
         </div>
       </Article>
       {ArticleModal && (
         <NewsModal
           setArticleModal={setArticleModal}
-          id={data.id}
-          title={data.title}
-          media={data.media}
-          img={data.img}
-          content={data.content}
-          assetCode={data.assetCode}
-          assetName={data.assetName}
+          id={data?.id}
+          title={data?.title}
+          media={data?.media}
+          img={data?.img}
+          content={data?.content}
+          assetCode={data?.assetCode}
+          assetName={data?.assetName}
         />
       )}
     </>
