@@ -18,7 +18,7 @@ function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
           </article>
         </div>
       </Article>
-      {ArticleModal && (
+      {ArticleModal && type === "news" && (
         <NewsModal
           setArticleModal={setArticleModal}
           id={data?.id}
