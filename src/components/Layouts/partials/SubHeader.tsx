@@ -25,7 +25,6 @@ function SubHeader({ text }: { text: string }) {
 }
 
 const Container = styled.header`
-  cursor: pointer;
   display: flex;
   margin: 32px 0 0;
   justify-content: space-between;
@@ -53,6 +52,9 @@ const Buttons = styled.div`
   text-align: right;
   #search {
     background-image: url("/icon/search.svg");
+  }
+  #menu {
+    background-image: url("/icon/menu.svg");
   }
 `
 
