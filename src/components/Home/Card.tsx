@@ -1,16 +1,21 @@
 import React from "react"
 import styled from "@emotion/styled"
 
-function Card() {
-  return <Article>Card</Article>
+import { SHADOW } from "src/styles/PALLETS"
+
+function Card({ children }: { children: JSX.Element }) {
+  return <Article>{children}</Article>
 }
 
 const Article = styled.article`
+  flex: 1;
+  margin: 0 4px;
   padding: 20px;
   min-height: 80px;
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: 0 6px 8px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: ${SHADOW.basic};
+  user-select: none;
 `
 
 export default Card
