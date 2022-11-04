@@ -1,12 +1,20 @@
-import React from "react"
-import CardList from "../CardList"
+import React from "react";
+import styled from "@emotion/styled";
 
-import { HotNewsDtos } from "src/api/HomeApi"
-import { IHotDtos } from "src/types/HotDataType"
+import CardList from "../CardList";
+import { HotNewsDtos } from "src/api/HomeApi";
 
 function HotNews() {
-  const data = HotNewsDtos()
-  return <CardList type="news" data={data} />
+  const data = HotNewsDtos();
+  return (
+    <Container>
+      <CardList type="news" data={data} />
+    </Container>
+  );
 }
 
-export default HotNews
+const Container = styled.section`
+  margin: 0 -16px;
+`;
+
+export default HotNews;
