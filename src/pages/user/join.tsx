@@ -28,9 +28,11 @@ function Join() {
           <p>이름</p>
           <input type="text" placeholder=" " required={true} />
         </Label>
-        <Label>
+        <Label interest={true}>
           <p>관심사</p>
-          <input type="text" placeholder=" " required={true} />
+          <input type="text" placeholder="1관심사" required={true} />
+          <input type="text" placeholder="2관심사" required={true} />
+          <input type="text" placeholder="3관심사" required={true} />
         </Label>
         <Submit>완료</Submit>
       </Form>
@@ -39,7 +41,7 @@ function Join() {
 }
 
 const Container = styled.section`
-  margin: 20% 0 0;
+  margin: 24px 0 0;
 `;
 const Welcome = styled.h3`
   display: block;
@@ -50,7 +52,7 @@ const Welcome = styled.h3`
   line-height: 2.3rem;
 `;
 const Form = styled.form``;
-const Label = styled.label`
+const Label = styled.label<{ interest?: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,9 +77,7 @@ const Label = styled.label`
   }
 
   &:has(input:focus) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    height: ${(props) => (props.interest ? "176px" : "96px")};
     background-color: #fff;
     border: 1px solid #000;
     p {
@@ -86,15 +86,14 @@ const Label = styled.label`
     input {
       width: 100%;
       height: auto;
+      margin: ${(props) => (props.interest ? "8px 0 -6px" : "0")};
       padding: 8px 0;
       opacity: 1;
       font-size: 1.1rem;
     }
   }
   &:has(input:not(:placeholder-shown)) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    min-height: ${(props) => (props.interest ? "176px" : "96px")};
     p {
       font-size: 0.85rem;
       transition: all 0.3s;
@@ -102,6 +101,7 @@ const Label = styled.label`
     }
     input {
       width: 100%;
+      margin: ${(props) => (props.interest ? "8px 0 -6px" : "0")};
       height: auto;
       padding: 8px 0;
       opacity: 1;
