@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import styled from "@emotion/styled"
+import React, { useState } from "react";
+import styled from "@emotion/styled";
 
-import { SHADOW } from "src/styles/PALLETS"
-import { IHotDtos } from "src/types/HotDataType"
-import NewsModal from "./NewsModal"
+import { SHADOW } from "src/styles/PALLETS";
+import { IHotDtos } from "src/types/HotDataType";
+import NewsModal from "./NewsModal";
 
 function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
-  const [ArticleModal, setArticleModal] = useState(false)
+  const [ArticleModal, setArticleModal] = useState(false);
   return (
     <>
       <Article>
@@ -14,7 +14,7 @@ function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
           {data?.img && <img src={data?.img} alt={data?.title} />}
           <article>
             <p>{data?.title}</p>
-            <span>{type === "news" ? data?.media : data?.board}</span>
+            <span>{type === "news" ? data?.media : data?.subTitle}</span>
           </article>
         </div>
       </Article>
@@ -31,7 +31,7 @@ function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
         />
       )}
     </>
-  )
+  );
 }
 
 const Article = styled.article`
@@ -43,6 +43,6 @@ const Article = styled.article`
   border-radius: 20px;
   box-shadow: ${SHADOW.basic};
   user-select: none;
-`
+`;
 
-export default Card
+export default Card;

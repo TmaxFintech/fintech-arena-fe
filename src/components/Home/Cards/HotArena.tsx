@@ -49,10 +49,10 @@ const Container = styled.div`
       white-space: pre-wrap;
       line-height: 1.5rem;
     }
-    .debate-finish-date {
+    .debate-finish-count {
       margin: 12px 0 4px;
-      font-size: 0.85rem;
-      opacity: 0.5;
+      font-size: 0.95rem;
+      opacity: 0.8;
     }
   }
   &::-webkit-scrollbar {
