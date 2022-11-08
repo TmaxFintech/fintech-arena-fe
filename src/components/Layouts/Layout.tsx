@@ -9,25 +9,24 @@ import { COLOR } from "src/styles/PALLETS";
 export const Layout = ({ children }: any) => {
   const router = useRouter();
   const subpageQuery = router.query;
-  const asPath = router.asPath.split("/");
-
+  const pathName = router.pathname.split("/");
   const HeaderText: { [index: string]: string } = {
     debate: "금융핫토픽아레나",
     hot: "HOT",
-    user: asPath[2] === "login" ? "로그인" : "회원가입",
+    user: pathName[2] === "login" ? "로그인" : "회원가입",
   };
 
   return (
     <>
-      <Main location={asPath[1] === "debate" && !!subpageQuery.id}>
-        {asPath[1] === "" ? (
+      <Main location={pathName[1] === "debate" && !!subpageQuery.id}>
+        {pathName[1] === "" ? (
           <Header />
         ) : (
-          <SubHeader text={HeaderText[asPath[1]]} />
+          <SubHeader text={HeaderText[pathName[1]]} />
         )}
         <main>{children}</main>
       </Main>
-      {asPath[1] === "" && <MySocialList />}
+      {pathName[1] === "" && <MySocialList />}
     </>
   );
 };
