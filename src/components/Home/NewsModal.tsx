@@ -1,11 +1,11 @@
-import React, { Dispatch } from "react"
-import styled from "@emotion/styled"
-import { createPortal } from "react-dom"
-import { IHotDtos } from "src/types/HotDataType"
-import { COLOR, SHADOW } from "src/styles/PALLETS"
+import React, { Dispatch } from "react";
+import styled from "@emotion/styled";
+import { createPortal } from "react-dom";
+import { IHotNewsDtos } from "src/types/HotDataType";
+import { COLOR, SHADOW } from "src/styles/PALLETS";
 
-interface NewsModalPropsType extends IHotDtos {
-  setArticleModal: React.Dispatch<React.SetStateAction<boolean>>
+interface NewsModalPropsType extends IHotNewsDtos {
+  setArticleModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function NewsModal({
@@ -17,6 +17,7 @@ function NewsModal({
   content,
   assetCode,
   assetName,
+  time,
 }: NewsModalPropsType) {
   return createPortal(
     <Container>
@@ -30,7 +31,7 @@ function NewsModal({
       <Content>{content}</Content>
     </Container>,
     document.getElementById("modal")!
-  )
+  );
 }
 
 const Container = styled.article`
@@ -46,7 +47,7 @@ const Container = styled.article`
   border-radius: 20px;
   box-shadow: ${SHADOW.basic};
   transform: translate(-50%, -55%);
-`
+`;
 
 const Close = styled.button`
   cursor: pointer;
@@ -58,16 +59,16 @@ const Close = styled.button`
   &:hover {
     background-color: rgba(${COLOR.mainrgb}, 0.25);
   }
-`
+`;
 const Title = styled.h3`
   font-size: 1.35rem;
   font-weight: 600;
   line-height: 1.5rem;
-`
+`;
 const Media = styled.p`
   margin: 12px 0 20px;
   font-size: 1.05rem;
-`
+`;
 const AssetTag = styled.div`
   display: inline-block;
   padding: 12px 8px;
@@ -75,14 +76,14 @@ const AssetTag = styled.div`
   color: ${COLOR.main};
   font-weight: 600;
   border-radius: 8px;
-`
+`;
 const Img = styled.img`
   display: block;
   margin: 28px auto;
   width: 100%;
-`
+`;
 const Content = styled.p`
   line-height: 1.35rem;
   white-space: pre-wrap;
-`
-export default NewsModal
+`;
+export default NewsModal;

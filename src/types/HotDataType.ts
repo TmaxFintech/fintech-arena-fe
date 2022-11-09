@@ -4,8 +4,11 @@ export interface IHotDtos {
   media?: string;
   subTitle?: string;
   img?: string;
+}
 
-  content?: string;
-  assetCode?: string;
-  assetName?: string;
+export interface IHotNewsDtos extends IHotDtos {
+  content: string;
+  assetCode: string;
+  assetName: string;
+  time: Date;
 }

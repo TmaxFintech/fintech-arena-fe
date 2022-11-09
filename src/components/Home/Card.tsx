@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import { SHADOW } from "src/styles/PALLETS";
-import { IHotDtos } from "src/types/HotDataType";
+import { IHotNewsDtos } from "src/types/HotDataType";
 import NewsModal from "./NewsModal";
 
-function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
+function Card({
+  type,
+  data,
+}: {
+  type: "news" | "article";
+  data: IHotNewsDtos;
+}) {
   const [ArticleModal, setArticleModal] = useState(false);
   return (
     <>
@@ -28,6 +34,7 @@ function Card({ type, data }: { type: "news" | "article"; data: IHotDtos }) {
           content={data?.content}
           assetCode={data?.assetCode}
           assetName={data?.assetName}
+          time={data?.time}
         />
       )}
     </>

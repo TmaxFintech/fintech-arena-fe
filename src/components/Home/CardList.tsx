@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 
 import { COLOR } from "src/styles/PALLETS";
-import { IHotDtos } from "src/types/HotDataType";
+import { IHotNewsDtos } from "src/types/HotDataType";
 import Card from "./Card";
 
 function CardList({
@@ -10,7 +10,7 @@ function CardList({
   data,
 }: {
   type: "news" | "article";
-  data: IHotDtos[];
+  data: IHotNewsDtos[];
 }) {
   const [nowSlidePage, setNowSlidePage] = useState(0);
   const [startX, setStartX] = useState(0);
