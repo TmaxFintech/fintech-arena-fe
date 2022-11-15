@@ -1,8 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { useForm, SubmitHandler } from "react-hook-form";
+
 import { COLOR } from "../../styles/PALLETS";
+import { UserJoin } from "src/api/UserAuthApi";
+import { UserInfoType } from "src/types/UserType";
 
 function Join() {
+  const { register, handleSubmit } = useForm<UserInfoType>();
+  const onSubmit: SubmitHandler<UserInfoType> = (data) => {
+    console.log("payload: ", data);
+    UserJoin(data).then((res) => console.log(res));
+  };
   return (
     <Container>
       <Welcome>
@@ -10,10 +19,16 @@ function Join() {
         <br />
         입력해주세요
       </Welcome>
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Label>
           <p>아이디</p>
-          <input type="text" autoFocus={true} placeholder=" " required={true} />
+          <input
+            type="text"
+            autoFocus={true}
+            placeholder=" "
+            required={true}
+            {...register("username")}
+          />
         </Label>
         <Label>
           <p>비밀번호</p>
@@ -22,17 +37,38 @@ function Join() {
             placeholder="8자 이상의 특수문자를 포함"
             minLength={8}
             required={true}
+            {...register("password")}
           />
         </Label>
         <Label>
-          <p>이름</p>
-          <input type="text" placeholder=" " required={true} />
+          <p>이메일</p>
+          <input
+            type="email"
+            placeholder=" "
+            required={true}
+            {...register("email")}
+          />
         </Label>
-        <Label interest={true}>
+        <Label prefer={true}>
           <p>관심사</p>
-          <input type="text" placeholder="1관심사" required={true} />
-          <input type="text" placeholder="2관심사" required={true} />
-          <input type="text" placeholder="3관심사" required={true} />
+          <input
+            type="text"
+            placeholder="1관심사"
+            required={true}
+            {...register("preferred1st")}
+          />
+          <input
+            type="text"
+            placeholder="2관심사"
+            required={true}
+            {...register("preferred2nd")}
+          />
+          <input
+            type="text"
+            placeholder="3관심사"
+            required={true}
+            {...register("preferred3rd")}
+          />
         </Label>
         <Submit>완료</Submit>
       </Form>
@@ -52,7 +88,7 @@ const Welcome = styled.h3`
   line-height: 2.3rem;
 `;
 const Form = styled.form``;
-const Label = styled.label<{ interest?: boolean }>`
+const Label = styled.label<{ prefer?: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -77,7 +113,7 @@ const Label = styled.label<{ interest?: boolean }>`
   }
 
   &:has(input:focus) {
-    height: ${(props) => (props.interest ? "176px" : "96px")};
+    height: ${(props) => (props.prefer ? "176px" : "96px")};
     background-color: #fff;
     border: 1px solid #000;
     p {
@@ -86,14 +122,14 @@ const Label = styled.label<{ interest?: boolean }>`
     input {
       width: 100%;
       height: auto;
-      margin: ${(props) => (props.interest ? "8px 0 -6px" : "0")};
+      margin: ${(props) => (props.prefer ? "8px 0 -6px" : "0")};
       padding: 8px 0;
       opacity: 1;
       font-size: 1.1rem;
     }
   }
   &:has(input:not(:placeholder-shown)) {
-    min-height: ${(props) => (props.interest ? "176px" : "96px")};
+    min-height: ${(props) => (props.prefer ? "176px" : "96px")};
     p {
       font-size: 0.85rem;
       transition: all 0.3s;
@@ -101,7 +137,7 @@ const Label = styled.label<{ interest?: boolean }>`
     }
     input {
       width: 100%;
-      margin: ${(props) => (props.interest ? "8px 0 -6px" : "0")};
+      margin: ${(props) => (props.prefer ? "8px 0 -6px" : "0")};
       height: auto;
       padding: 8px 0;
       opacity: 1;

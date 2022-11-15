@@ -7,8 +7,8 @@ export interface IHotDtos {
 }
 
 export interface IHotNewsDtos extends IHotDtos {
-  content: string;
-  assetCode: string;
-  assetName: string;
-  time: Date;
+  content?: string;
+  assetCode?: string;
+  assetName?: string;
+  time?: Date;
 }

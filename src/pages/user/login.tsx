@@ -1,9 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { COLOR } from "src/styles/PALLETS";
+import { UserLoginType } from "src/types/UserType";
+import { UserLogin } from "src/api/UserAuthApi";
 
 function Login() {
+  const { register, handleSubmit } = useForm<UserLoginType>();
+  const onSubmit: SubmitHandler<UserLoginType> = (data) => {
+    console.log("payload: ", data);
+    UserLogin(data).then((res) => console.log(res));
+  };
   return (
     <Container>
       <Welcome>
@@ -11,14 +19,25 @@ function Login() {
         <br />
         입력해주세요
       </Welcome>
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Label>
           <p>아이디</p>
-          <input type="text" autoFocus={true} placeholder=" " required={true} />
+          <input
+            type="text"
+            autoFocus={true}
+            placeholder=" "
+            required={true}
+            {...register("username")}
+          />
         </Label>
         <Label>
           <p>비밀번호</p>
-          <input type="password" placeholder=" " required={true} />
+          <input
+            type="password"
+            placeholder=" "
+            required={true}
+            {...register("password")}
+          />
         </Label>
         <Submit type="submit">로그인</Submit>
       </Form>
