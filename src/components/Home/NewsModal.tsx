@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useEffect } from "react";
 import styled from "@emotion/styled";
 import { createPortal } from "react-dom";
 import { IHotNewsDtos } from "src/types/HotDataType";
@@ -19,17 +19,33 @@ function NewsModal({
   assetName,
   time,
 }: NewsModalPropsType) {
+  // 모달 켜질 때, 스크롤 움직임 방지
+  useEffect(() => {
+    document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = "";
+      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+    };
+  }, []);
+
   return createPortal(
-    <Container>
-      <Close onClick={() => setArticleModal(false)}>×</Close>
-      <Title>{title}</Title>
-      <Media>{media}</Media>
-      <AssetTag>
-        {assetName}({assetCode})
-      </AssetTag>
-      <Img src={img} alt={title} />
-      <Content>{content}</Content>
-    </Container>,
+    <>
+      <Container>
+        <Title>{title}</Title>
+        <Media>{media}</Media>
+        <AssetTag>
+          {assetName}({assetCode})
+        </AssetTag>
+        <Img src={img} alt={title} />
+        <Content>{content}</Content>
+      </Container>
+      <Backdrop onClick={() => setArticleModal(false)} />
+    </>,
     document.getElementById("modal")!
   );
 }
@@ -38,7 +54,7 @@ const Container = styled.article`
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 84%;
+  width: 90%;
   height: 76%;
   padding: 32px;
   background-color: #fff;
@@ -49,17 +65,6 @@ const Container = styled.article`
   transform: translate(-50%, -55%);
 `;
 
-const Close = styled.button`
-  cursor: pointer;
-  float: right;
-  padding: 2px 8px;
-  margin: -24px;
-  font-size: 1.6rem;
-  border-radius: 8px;
-  &:hover {
-    background-color: rgba(${COLOR.mainrgb}, 0.25);
-  }
-`;
 const Title = styled.h3`
   font-size: 1.35rem;
   font-weight: 600;
@@ -85,5 +90,15 @@ const Img = styled.img`
 const Content = styled.p`
   line-height: 1.35rem;
   white-space: pre-wrap;
+`;
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1;
 `;
 export default NewsModal;
