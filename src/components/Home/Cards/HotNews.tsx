@@ -6,9 +6,10 @@ import { HotNewsDtos } from "src/api/HomeApi";
 
 function HotNews() {
   const data = HotNewsDtos();
+
   return (
     <Container>
-      <CardList type="news" data={data} />
+      <CardList type="news" data={data?.status ? [] : data} />
     </Container>
   );
 }

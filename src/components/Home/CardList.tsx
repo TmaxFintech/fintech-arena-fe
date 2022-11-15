@@ -48,18 +48,22 @@ function CardList({
         nowPage={nowSlidePage}
         allPage={data?.length}
       >
-        {data?.map((value, idx) => (
-          <Card key={idx} type={type} data={value} />
-        ))}
+        {data
+          ? data?.map((value, idx) => (
+              <Card key={idx} type={type} data={value} />
+            ))
+          : null}
       </Cards>
       <Sliders>
-        {data?.map((value, idx) => (
-          <Slider
-            key={idx}
-            isHere={idx == nowSlidePage}
-            onClick={() => setNowSlidePage(idx)}
-          ></Slider>
-        ))}
+        {data
+          ? data?.map((value, idx) => (
+              <Slider
+                key={idx}
+                isHere={idx == nowSlidePage}
+                onClick={() => setNowSlidePage(idx)}
+              ></Slider>
+            ))
+          : null}
       </Sliders>
     </Container>
   );
