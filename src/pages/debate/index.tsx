@@ -8,9 +8,7 @@ import RecentTopic from "src/components/Debate/RecentTopic";
 function DebateIndex() {
   return (
     <>
-      <HomeSection>
-        <SubTitle>Hi-Me Pick! 아레나</SubTitle>
-      </HomeSection>
+      <SubTitle>Hi-Me Pick! 아레나</SubTitle>
       <HotArena />
       <SubTitle>지금 HOT한! 아레나</SubTitle>
       <NowHotGridList />
@@ -20,19 +18,8 @@ function DebateIndex() {
   );
 }
 
-const HomeSection = styled.div`
-  display: flex;
-  margin: 28px 0 16px;
-  justify-content: space-between;
-  span {
-    cursor: pointer;
-    font-size: 0.9rem;
-    opacity: 0.6;
-  }
-`;
-
 const SubTitle = styled.h2`
-  margin: 34px 0 0;
+  margin: 34px 0 8px;
   font-size: 1.37rem;
   font-weight: 600;
 `;

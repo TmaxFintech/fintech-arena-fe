@@ -36,7 +36,7 @@ const Main = styled.div<{ location: boolean }>`
   left: 50%;
   max-width: 420px;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-color: ${(props) => (props.location ? COLOR.main : "#fafafa")};
   transform: translateX(-50%);
   main {
