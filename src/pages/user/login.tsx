@@ -85,27 +85,8 @@ const Label = styled.label`
     font-size: 1px;
     transition: all 0.3s;
   }
-  &:has(input:focus) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #fff;
-    border: 1px solid #000;
-    p {
-      font-size: 0.85rem;
-    }
-    input {
-      width: 100%;
-      height: auto;
-      padding: 8px 0;
-      opacity: 1;
-      font-size: 1.1rem;
-    }
-  }
+  &:has(input:focus),
   &:has(input:not(:placeholder-shown)) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     p {
       font-size: 0.85rem;
       transition: all 0.3s;
@@ -118,6 +99,10 @@ const Label = styled.label`
       opacity: 1;
       font-size: 1.1rem;
     }
+  }
+  &:has(input:focus) {
+    background-color: #fff;
+    border: 1px solid #000;
   }
 `;
 

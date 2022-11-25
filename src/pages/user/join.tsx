@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { COLOR } from "../../styles/PALLETS";
 import { UserJoin } from "src/api/UserAuthApi";
-import { UserInfoType } from "src/types/UserType";
+import { PreferSelectedDataType, UserInfoType } from "src/types/UserType";
+import PreferSelectModal from "src/components/User/PreferSelectModal";
+
+interface JoinValidErrorsType {
+  objectName: string;
+  field: string;
+  code: string;
+  message: string;
+}
 
 function Join() {
-  const { register, handleSubmit } = useForm<UserInfoType>();
+  const [viewModal, setViewModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [getPreferCorp, setGetPreferCorp] = useState<PreferSelectedDataType[]>(
+    []
+  );
+  const [errorData, setErrorData] = useState<JoinValidErrorsType[]>([]);
+  const { register, handleSubmit, setValue } = useForm<UserInfoType>();
   const onSubmit: SubmitHandler<UserInfoType> = (data) => {
     console.log("payload: ", data);
-    UserJoin(data).then((res) => console.log(res));
+    UserJoin(data)
+      .then((res) => console.log(res))
+      .catch((res) => {
+        setErrorData(res?.response?.data?.data);
+      })
+      .then(() => console.log("here", errorData));
   };
+
+  useEffect(() => {
+    setValue("preferred1st", getPreferCorp[0]?.assetName.toString());
+    setValue("preferred2nd", getPreferCorp[1]?.assetName.toString());
+    setValue("preferred3rd", getPreferCorp[2]?.assetName.toString());
+  }, [getPreferCorp]);
+
   return (
     <Container>
       <Welcome>
@@ -21,7 +47,15 @@ function Join() {
       </Welcome>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Label>
-          <p>아이디</p>
+          <p>
+            아이디
+            {/* <span className="error-message">
+              {
+                errorData?.filter((value) => value?.field === "username")[0]
+                  .message
+              }
+            </span> */}
+          </p>
           <input
             type="text"
             autoFocus={true}
@@ -33,12 +67,17 @@ function Join() {
         <Label>
           <p>비밀번호</p>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="8자 이상의 특수문자를 포함"
             minLength={8}
             required={true}
             {...register("password")}
           />
+          <PasswordVisible
+            showPassword={showPassword}
+            onMouseOver={() => setShowPassword(!showPassword)}
+            onMouseLeave={() => setShowPassword(!showPassword)}
+          ></PasswordVisible>
         </Label>
         <Label>
           <p>이메일</p>
@@ -49,27 +88,25 @@ function Join() {
             {...register("email")}
           />
         </Label>
-        <Label prefer={true}>
+        <Label onClick={() => setViewModal(true)}>
           <p>관심사</p>
           <input
             type="text"
-            placeholder="1관심사"
+            placeholder="관심사"
+            defaultValue={getPreferCorp
+              .map((value) => value.assetName)
+              .join(", ")}
             required={true}
-            {...register("preferred1st")}
-          />
-          <input
-            type="text"
-            placeholder="2관심사"
-            required={true}
-            {...register("preferred2nd")}
-          />
-          <input
-            type="text"
-            placeholder="3관심사"
-            required={true}
-            {...register("preferred3rd")}
+            disabled
           />
         </Label>
+        {viewModal && (
+          <PreferSelectModal
+            setViewModal={setViewModal}
+            getPreferCorp={getPreferCorp}
+            setGetPreferCorp={setGetPreferCorp}
+          />
+        )}
         <Submit>완료</Submit>
       </Form>
     </Container>
@@ -88,7 +125,8 @@ const Welcome = styled.h3`
   line-height: 2.3rem;
 `;
 const Form = styled.form``;
-const Label = styled.label<{ prefer?: boolean }>`
+const Label = styled.label`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,25 +149,11 @@ const Label = styled.label<{ prefer?: boolean }>`
     font-size: 1px;
     transition: all 0.3s;
   }
-
-  &:has(input:focus) {
-    height: ${(props) => (props.prefer ? "176px" : "96px")};
-    background-color: #fff;
-    border: 1px solid #000;
-    p {
-      font-size: 0.85rem;
-    }
-    input {
-      width: 100%;
-      height: auto;
-      margin: ${(props) => (props.prefer ? "8px 0 -6px" : "0")};
-      padding: 8px 0;
-      opacity: 1;
-      font-size: 1.1rem;
-    }
+  button {
+    display: none;
   }
+  &:has(input:focus),
   &:has(input:not(:placeholder-shown)) {
-    min-height: ${(props) => (props.prefer ? "176px" : "96px")};
     p {
       font-size: 0.85rem;
       transition: all 0.3s;
@@ -137,16 +161,45 @@ const Label = styled.label<{ prefer?: boolean }>`
     }
     input {
       width: 100%;
-      margin: ${(props) => (props.prefer ? "8px 0 -6px" : "0")};
       height: auto;
       padding: 8px 0;
       opacity: 1;
       font-size: 1.1rem;
     }
+    button {
+      display: block;
+    }
+  }
+  &:has(input:focus) {
+    background-color: #fff;
+    border: 1px solid #000;
+  }
+  /* 에러 메시지 */
+  .error-message {
+    display: block;
+    float: right;
+    color: red;
   }
 `;
 
+const PasswordVisible = styled.i<{ showPassword: boolean }>`
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  background-image: ${(props) =>
+    props.showPassword
+      ? "url(/icon/visibility_off.svg)"
+      : "url(/icon/visibility.svg)"};
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translateY(-50%);
+`;
+
 const Submit = styled.button`
+  cursor: pointer;
   width: 100%;
   padding: 20px;
   background-color: ${COLOR.main};
