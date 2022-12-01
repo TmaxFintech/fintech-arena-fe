@@ -10,7 +10,7 @@ import NewsCard from "src/components/Hot/NewsCard";
 function Hot() {
   const router = useRouter();
   const query = router.query;
-  const data: IHotNewsDtos[] = HotNewsDtos();
+  const { data, error } = HotNewsDtos();
 
   return (
     <>
@@ -23,9 +23,13 @@ function Hot() {
         </Link>
       </Toggle>
       <List>
-        {data?.map((value, idx) => (
-          <NewsCard key={idx} value={value} />
-        ))}
+        {error?.status ? (
+          <article className="list-error-msg">목록을 가져올 수 없습니다<br /><br />Error Status: {error?.status}</article>
+        ) : (
+          data?.map((value: IHotNewsDtos, idx: number) => (
+            <NewsCard key={idx} value={value} />
+          ))
+        )}
       </List>
     </>
   );
@@ -47,6 +51,11 @@ const Button = styled.button<{ query: boolean }>`
   opacity: ${(props) => (props.query ? "1" : "0.5")};
 `;
 
-const List = styled.section``;
+const List = styled.section`
+.list-error-msg {
+  margin: 24px 0;
+  font-size: 1.1rem;
+  text-align: center;
+}`;
 
 export default Hot;

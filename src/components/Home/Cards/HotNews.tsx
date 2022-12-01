@@ -5,11 +5,11 @@ import CardList from "../CardList";
 import { HotNewsDtos } from "src/api/HomeApi";
 
 function HotNews() {
-  const data = HotNewsDtos();
+  const { data, error } = HotNewsDtos();
 
   return (
     <Container>
-      <CardList type="news" data={data?.status ? [] : data} />
+      <CardList type="news" data={error?.status ? [] : data} />
     </Container>
   );
 }
