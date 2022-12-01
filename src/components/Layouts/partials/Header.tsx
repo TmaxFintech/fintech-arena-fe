@@ -2,16 +2,15 @@ import React from "react";
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { COLOR } from "src/styles/PALLETS";
+import Hamburger from "../Hamburger";
 
 function Header() {
   return (
     <Container>
       <Link href="/">
-        <Location>arena</Location>
+        <Logo>arena</Logo>
       </Link>
-      <p>
-        <Link href="/user/login">Login</Link>
-      </p>
+      <Hamburger />
     </Container>
   );
 }
@@ -24,9 +23,9 @@ const Container = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: ${COLOR.background};
-  z-index: 999;
+  z-index: 10;
 `;
-const Location = styled.div`
+const Logo = styled.h1`
   cursor: pointer;
   font-size: 2rem;
   font-weight: 900;

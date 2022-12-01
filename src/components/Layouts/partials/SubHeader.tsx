@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { COLOR } from "src/styles/PALLETS";
+import Hamburger from "../Hamburger";
 
 function SubHeader({ text }: { text: string }) {
   const router = useRouter();
@@ -17,32 +18,38 @@ function SubHeader({ text }: { text: string }) {
       </Back>
       <HeadTitle>{text}</HeadTitle>
       <Buttons>
-        <button id="search">
-          <span className="a11y-hidden">검색</span>
-        </button>
-        <button id="menu">
-          <span className="a11y-hidden">menu</span>
-        </button>
+        <li>
+          <button id="search">
+            <span className="a11y-hidden">검색</span>
+          </button>
+        </li>
+        <li id="hamburger">
+          <Hamburger />
+        </li>
       </Buttons>
     </Container>
   );
 }
 
+const BUTTON_STYLE = `
+  cursor: pointer;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
 const Container = styled.header<{ location: boolean }>`
   position: sticky;
   display: flex;
-  padding: 32px 0 0;
+  padding: 32px 16px 0;
   top: 0;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
   background-color: ${(props) =>
     props.location ? COLOR.main : COLOR.background};
-  z-index: 999;
-  button {
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-  }
   div {
     filter: invert(${(props) => (props.location ? 1 : 0)});
   }
@@ -50,6 +57,7 @@ const Container = styled.header<{ location: boolean }>`
 const Back = styled.div`
   flex: 1;
   #back {
+    ${BUTTON_STYLE}
     background-image: url("/icon/arrow_back.svg");
   }
 `;
@@ -59,14 +67,15 @@ const HeadTitle = styled.div`
   font-weight: 600;
   text-align: center;
 `;
-const Buttons = styled.div`
+const Buttons = styled.ul`
   flex: 1;
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 6;
   #search {
+    ${BUTTON_STYLE}
     background-image: url("/icon/search.svg");
-  }
-  #menu {
-    background-image: url("/icon/menu.svg");
   }
 `;
 
