@@ -1,10 +1,11 @@
-import type { NextPage } from "next"
-import styled from "@emotion/styled"
+import type { NextPage } from "next";
+import styled from "@emotion/styled";
 
-import HotArena from "src/components/Home/Cards/HotArena"
-import HotArticle from "src/components/Home/Cards/HotArticle"
-import HotNews from "src/components/Home/Cards/HotNews"
-import Link from "next/link"
+import HotArena from "src/components/Home/Cards/HotArena";
+import HotArticle from "src/components/Home/Cards/HotArticle";
+import HotNews from "src/components/Home/Cards/HotNews";
+import Link from "next/link";
+import MySocialList from "src/components/Home/MySocialList";
 
 const Home: NextPage = () => {
   return (
@@ -30,9 +31,10 @@ const Home: NextPage = () => {
         </Link>
       </HomeSection>
       <HotArticle />
+      <MySocialList />
     </>
-  )
-}
+  );
+};
 
 const HomeSection = styled.div`
   display: flex;
@@ -43,10 +45,10 @@ const HomeSection = styled.div`
     font-size: 0.9rem;
     opacity: 0.6;
   }
-`
+`;
 const SubTitle = styled.h2`
   font-size: 1.37rem;
   font-weight: 600;
-`
+`;
 
-export default Home
+export default Home;

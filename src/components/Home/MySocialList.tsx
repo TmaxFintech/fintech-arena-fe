@@ -30,7 +30,7 @@ const Container = styled.section<{ showList: boolean }>`
   box-shadow: ${SHADOW.center};
   transform: translateX(-50%);
   transition: all 0.3s;
-  z-index: 10;
+  z-index: 2;
 `
 
 const Header = styled.div`

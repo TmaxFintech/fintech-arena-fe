@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+
+import { COLOR } from "src/styles/PALLETS";
 import Header from "./partials/Header";
 import SubHeader from "./partials/SubHeader";
-import MySocialList from "../Home/MySocialList";
-import { COLOR } from "src/styles/PALLETS";
 
 export const Layout = ({ children }: any) => {
   const router = useRouter();
@@ -17,28 +17,26 @@ export const Layout = ({ children }: any) => {
   };
 
   return (
-    <>
-      <Main location={pathName[1] === "debate" && !!subpageQuery.id}>
-        {pathName[1] === "" ? (
-          <Header />
-        ) : (
-          <SubHeader text={HeaderText[pathName[1]]} />
-        )}
-        <main>{children}</main>
-      </Main>
-      {pathName[1] === "" && <MySocialList />}
-    </>
+    <Container location={pathName[1] === "debate" && !!subpageQuery.id}>
+      {pathName[1] === "" ? (
+        <Header />
+      ) : (
+        <SubHeader text={HeaderText[pathName[1]]} />
+      )}
+      <main>{children}</main>
+    </Container>
   );
 };
 
-const Main = styled.div<{ location: boolean }>`
-  position: absolute;
+const Container = styled.div<{ location: boolean }>`
+  position: relative;
   left: 50%;
   max-width: 420px;
   width: 100%;
-  min-height: 100%;
+  height: 100vh;
   background-color: ${(props) => (props.location ? COLOR.main : "#fafafa")};
   transform: translateX(-50%);
+  overflow: hidden;
   main {
     padding: 0 16px 80px;
     overflow-x: hidden;
