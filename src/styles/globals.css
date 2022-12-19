@@ -9,8 +9,10 @@ body {
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
+a,
+input,
+textarea {
+  font-family: inherit;
   text-decoration: none;
 }
 
