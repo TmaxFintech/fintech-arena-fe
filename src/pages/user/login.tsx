@@ -5,12 +5,19 @@ import Link from "next/link";
 import { COLOR } from "src/styles/PALLETS";
 import { UserLoginType } from "src/types/UserType";
 import { UserLogin } from "src/api/UserAuthApi";
+import { setCookie } from "cookies-next";
 
 function Login() {
   const { register, handleSubmit } = useForm<UserLoginType>();
   const onSubmit: SubmitHandler<UserLoginType> = (data) => {
-    console.log("payload: ", data);
-    UserLogin(data).then((res) => console.log(res));
+    UserLogin(data)
+      .then((res) => {
+        console.log(res)
+        if (res?.data.success) {
+          setCookie("token", res.data.data);
+        }
+      })
+      .catch((err) => console.log);
   };
   return (
     <Container>
