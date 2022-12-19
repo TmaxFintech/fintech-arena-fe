@@ -5,7 +5,7 @@ import HotArena from "src/components/Home/Cards/HotArena";
 import HotArticle from "src/components/Home/Cards/HotArticle";
 import HotNews from "src/components/Home/Cards/HotNews";
 import Link from "next/link";
-import MySocialList from "src/components/Home/MySocialList";
+import MyCafeClubList from "src/components/Home/MyCafeClubList";
 
 const Home: NextPage = () => {
   return (
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
         </Link>
       </HomeSection>
       <HotArticle />
-      <MySocialList />
+      <MyCafeClubList />
     </>
   );
 };

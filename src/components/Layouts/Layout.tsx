@@ -36,9 +36,11 @@ const Container = styled.div<{ location: boolean }>`
   height: 100vh;
   background-color: ${(props) => (props.location ? COLOR.main : "#fafafa")};
   transform: translateX(-50%);
-  overflow: hidden;
+  overflow-x: hidden;
   main {
     padding: 0 16px 80px;
-    overflow-x: hidden;
+  }
+  &::-webkit-scrollbar {
+    width : 0;
   }
 `;
