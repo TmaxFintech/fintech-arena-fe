@@ -1,8 +1,12 @@
 import useSWR from "swr";
+import { getCookie } from "cookies-next";
 
-const url = "http://192.168.158.143:8080/api/v0";
-const fetcher = async (url: RequestInfo | URL) => {
-  const response = await fetch(url);
+const url = "http://192.168.158.143:8080/v1";
+const fetcher = async (url: RequestInfo | URL, token: string) => {
+  console.log(url, token)
+  const response = await fetch(url, {
+    headers: { "X-AUTH-TOKEN": getCookie("token") as string },
+  });
   if (!response.ok) {
     const error = {
       info: await response.json(),
