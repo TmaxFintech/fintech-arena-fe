@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { createPortal } from "react-dom";
-import useSWR from "swr";
 import { COLOR, SHADOW } from "src/styles/PALLETS";
+
 import { PreferSelectedDataType } from "src/types/UserType";
+import { SocketReqResTypes } from "src/types/SocketResponse";
+
+import AssetSearchSocket from "src/socket/AssetsSearch";
 
 interface PreferSelectModalTypes {
   setViewModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,21 +21,17 @@ function PreferSelectModal({
   getPreferCorp,
   setGetPreferCorp,
 }: PreferSelectModalTypes) {
-  const [corpValue, setCorpValue] = useState("");
+  // const [corpValue, setCorpValue] = useState("");
+  const corpValue = useRef<HTMLInputElement>(null);
+  const [response, setResponse] = useState<SocketReqResTypes>();
 
-  const serachURL = "";
-  //   const { data, error } = useSWR(serachURL + corpValue, (...args) =>
-  //     fetch(...args).then((res) => res.json())
-  //   );
-
-  const data: PreferSelectedDataType[] = [
-    { assetName: "삼성전자", assetCode: '005930' },
-    { assetName: "LG에너지솔루션", assetCode: '373220' },
-    { assetName: "SK텔레콤", assetCode: '017670' },
-    { assetName: "현대중공업", assetCode: '329180' },
-    { assetName: "이마트", assetCode: '139480' },
-    { assetName: "아모레퍼시픽", assetCode: '090430' },
-  ];
+  const SearchAssetKeyword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    AssetSearchSocket({
+      body: corpValue.current.value,
+      setResponse: setResponse,
+    });
+  };
 
   const deleteCorp = (e: React.MouseEvent<HTMLUListElement>) => {
     let targetText = (e.target as HTMLUListElement).innerText;
@@ -43,48 +42,55 @@ function PreferSelectModal({
   return createPortal(
     <>
       <Container>
-        <input
-          type="text"
-          value={corpValue}
-          onChange={(e) => setCorpValue(e.target.value)}
-          placeholder="기업 이름을 입력하세요."
-          autoFocus={true}
-        />
+        <form onSubmit={SearchAssetKeyword}>
+          <input
+            type="text"
+            ref={corpValue}
+            placeholder="기업 이름을 입력하세요."
+            autoFocus={true}
+          />
+          <button type="submit">검색</button>
+        </form>
         <List>
-          {data ? (
-            data.map((value, idx) => (
+          {response?.body.response ? (
+            response?.body.response.map((value, idx) => (
               <li
                 key={idx}
-                style={{color: getPreferCorp.some(
-                    (arr) => arr.assetName == value.assetName
-                  ) ? "#888" : "#000"}}
+                style={{
+                  color: getPreferCorp.some(
+                    (arr) => arr.assetName == value.asset_name
+                  )
+                    ? "#888"
+                    : "#000",
+                }}
                 onClick={() => {
                   if (
                     getPreferCorp.length < 3 &&
                     !getPreferCorp.some(
-                      (arr) => arr.assetName == value.assetName
+                      (arr) => arr.assetName == value.asset_name
                     )
                   ) {
                     setGetPreferCorp([
                       ...getPreferCorp,
                       {
-                        assetCode: value.assetCode,
-                        assetName: value.assetName,
+                        assetCode: value.asset_code,
+                        assetName: value.asset_name,
                       },
                     ]);
                   }
                 }}
               >
-                <span>{value.assetCode}</span> <strong>{value.assetName}</strong>
+                <span>{value.asset_code}</span>{" "}
+                <strong>{value.asset_name}</strong>
                 <i className="corp-selected">
                   {getPreferCorp.some(
-                    (arr) => arr.assetName == value.assetName
+                    (arr) => arr.assetName == value.asset_name
                   ) && "✓"}
                 </i>
               </li>
             ))
           ) : (
-            <div>검색 결과가 없습니다.</div>
+            <div className="search-no-result">검색 결과가 없습니다.</div>
           )}
         </List>
         <Selected onClick={deleteCorp}>
@@ -94,7 +100,7 @@ function PreferSelectModal({
         </Selected>
         <Button
           type="button"
-          style={{backgroundColor: getPreferCorp.length < 3 ? "silver" : ""}}
+          style={{ backgroundColor: getPreferCorp.length < 3 ? "silver" : "" }}
           onClick={() => {
             if (getPreferCorp.length === 3) {
               setGetPreferCorp(getPreferCorp);
@@ -128,14 +134,26 @@ const Container = styled.div`
   border-radius: 20px;
   box-shadow: ${SHADOW.basic};
   transform: translate(-50%, -30%);
-  input {
-    width: 100%;
+  form {
+    display: flex;
     margin: 0 0 12px;
-    font-size: 1.1rem;
+    align-items: center;
+    input {
+      flex: 3;
+      font-size: 1.1rem;
+    }
+    button {
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background-color: ${COLOR.main};
+      color: #fff;
+      font-weight: 500;
+    }
   }
 `;
 const List = styled.ul`
-flex:3;
+  flex: 3;
   padding: 0 8px 0 0;
   overflow-y: scroll;
   li {
@@ -157,6 +175,10 @@ flex:3;
       font-weight: 500;
       font-size: 1.05rem;
     }
+  }
+  .search-no-result{
+    margin: 24px auto;
+    text-align: center;
   }
 `;
 

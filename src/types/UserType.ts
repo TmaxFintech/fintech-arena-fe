@@ -9,3 +9,8 @@ export interface UserLoginType {
   username: string;
   password: string;
 }
+
+export interface PreferSelectedDataType {
+  assetName: string;
+  assetCode: string;
+}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -22,14 +23,28 @@ function Join() {
   );
   const [errorData, setErrorData] = useState<JoinValidErrorsType[]>([]);
   const { register, handleSubmit, setValue } = useForm<UserInfoType>();
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<UserInfoType> = (data) => {
-    console.log("payload: ", data);
     UserJoin(data)
-      .then((res) => console.log(res))
-      .catch((res) => {
-        setErrorData(res?.response?.data?.data);
+      .then((res) => {
+        if (res?.data?.message === "회원가입 성공") {
+          alert("회원가입 성공")
+          router.push("/user/login");
+        }
       })
-      .then(() => console.log("here", errorData));
+      .catch((res) => {
+        setErrorData(res?.response?.data?.data?.errors);
+      });
+
+    setTimeout(() => {
+      setErrorData([]);
+    }, 3500);
+  };
+
+  const validationCheck = (fieldname: string) => {
+    return errorData?.filter((value) => value?.field === fieldname)?.[0]
+      ?.message;
   };
 
   useEffect(() => {
@@ -49,12 +64,11 @@ function Join() {
         <Label>
           <p>
             아이디
-            {/* <span className="error-message">
-              {
-                errorData?.filter((value) => value?.field === "username")[0]
-                  .message
-              }
-            </span> */}
+            {errorData?.length > 0 && (
+              <span className="error-message">
+                {validationCheck("username")}
+              </span>
+            )}
           </p>
           <input
             type="text"
@@ -80,7 +94,12 @@ function Join() {
           ></PasswordVisible>
         </Label>
         <Label>
-          <p>이메일</p>
+          <p>
+            이메일
+            {errorData?.length > 0 && (
+              <span className="error-message">{validationCheck("email")}</span>
+            )}
+          </p>
           <input
             type="email"
             placeholder=" "
@@ -179,6 +198,10 @@ const Label = styled.label`
     display: block;
     float: right;
     color: red;
+  }
+  .fade-out {
+    opacity: 0;
+    transition: all 0.3s;
   }
 `;
 
